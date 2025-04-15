@@ -132,9 +132,16 @@ fun FlowerCard(flower: FlowerCardData) {
                 }
 
             }
+            var iconPush: Int = 0
+            if (flower.notification) {
+                iconPush = R.drawable.push_active
+            } else {
+                iconPush = R.drawable.push
+            }
+
             Icon(
                 modifier = Modifier.align(Alignment.Top),
-                painter = painterResource(R.drawable.push),
+                painter = painterResource(iconPush),
                 contentDescription = "Push",
             )
         }
