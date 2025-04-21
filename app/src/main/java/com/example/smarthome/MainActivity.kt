@@ -23,7 +23,10 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -70,6 +73,9 @@ class MainActivity : ComponentActivity() {
 fun FlowerCard(flower: FlowerCardData) {
     Card(
         modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
         shape = RoundedCornerShape(16.dp)
     ){
         Row(
@@ -124,15 +130,15 @@ fun FlowerCard(flower: FlowerCardData) {
                     repeat(3) { index ->
                         var iconRes: Int = 0
                         if (index * 33 <= flower.waterLevel) {
-                            iconRes = R.drawable.sun_full
+                            iconRes = R.drawable.waterlevel_full
                         } else {
-                            iconRes = R.drawable.sun_empty
+                            iconRes = R.drawable.water_level
                         }
 
                         Icon(
                             painter = painterResource(iconRes),
-                            contentDescription = "Sunlevel",
-                            tint = androidx.compose.ui.graphics.Color.Yellow
+                            contentDescription = "WaterLevel",
+                            tint = androidx.compose.ui.graphics.Color.Blue
                         )
                     }
                     Text(
@@ -219,21 +225,36 @@ fun MainScreen () {
                         mutableStateOf("")
                     }
 
-                    TextField(
+                    Box(
                         modifier = Modifier
                             .weight(1f)
-                            .wrapContentWidth(Alignment.CenterHorizontally)
+                            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                             .background(brush = Brush.verticalGradient(
-                               0.50f to Color(0xff170057),
-                               1.00f to Color(0xff5F3BC3))
-                            ),
-                        value = textFieldState,
-                        onValueChange = {textFieldState = it},
-                    )
+                                0.50f to Color(0xff170057),
+                                1.00f to Color(0xff5F3BC3)
+                            ))
+                    ) {
+                        Column {
+                            TextField(
+                                modifier = Modifier.fillMaxWidth()
+                                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
+                                value = textFieldState,
+                                onValueChange = {textFieldState = it},
+                                colors = androidx.compose.material3.TextFieldDefaults.colors(
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent
+                                )
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(2.dp)
+                                    .background(Color.White))
+                        }
+                    }
                 }
             }
         }
-
     }
 }
 
